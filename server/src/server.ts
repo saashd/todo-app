@@ -1,7 +1,8 @@
 import express, {Express} from "express"
 import mongoose from "mongoose"
 import cors from "cors"
-import todoRoutes from "./routes"
+import routes from "./index"
+
 
 const server: Express = express();
 const bodyParser = require('body-parser');
@@ -16,7 +17,19 @@ const PORT: string | number = process.env.PORT || 4000;
 
 
 server.use(cors());
-server.use(todoRoutes);
+server.use(routes);
+server.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    );
+    next();
+});
 
 
 const uri: string = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@sqlauthority.5s3yxjh.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
