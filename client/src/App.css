@@ -1,0 +1,17 @@
+.App {
+    text-align: center;
+    background-color: darkred;
+    width: 100vw;
+    height: 100vh;
+
+
+}
+
+
+
+.paper {
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 400px;
+}
