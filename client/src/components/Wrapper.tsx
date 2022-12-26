@@ -1,13 +1,12 @@
 import Nav from "./Nav";
-import Menu from "./Menu";
 import React, {Dispatch, useEffect, useState} from "react";
-import axios from "axios";
 import {Navigate} from "react-router-dom";
 import {connect} from "react-redux";
-import {User} from "../models/user";
 import {setUser} from "../redux/actions/setUserAction";
-import {handleError} from "../API";
 import Cookies from "universal-cookie";
+import axios from "axios";
+import {User} from "../models/user";
+import {handleError} from "../API";
 
 const cookies = new Cookies();
 
@@ -22,10 +21,10 @@ function Wrapper(props: any) {
                     const {data} = await axios.get('user');
                     props.setUser(
                         new User(
-                            data.id,
-                            data.first_name,
-                            data.last_name,
-                            data.email));
+                            data.user._id,
+                            data.user.first_name,
+                            data.user.last_name,
+                            data.user.email));
                 } else {
                     setRedirect(true);
                 }
@@ -35,22 +34,24 @@ function Wrapper(props: any) {
 
             }
         })();
-    }, []);
+    }, [token,props]);
 
     if (redirect) {
         return <Navigate to={'/login'}/>;
     }
-    return (<>
+    return (<div style={{
+        display: 'flex',
+        height: "100%",
+        width: "100%"
+    }}>
         <Nav/>
-        <div className="container-fluid">
-            <div className="row">
-                <Menu/>
-                <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    {props.children}
-                </main>
-            </div>
-        </div>
-    </>);
+        <main style={{
+            flexGrow: 1,
+            width: '95%',
+        }}>
+            {props.children}
+        </main>
+    </div>);
 }
 
 

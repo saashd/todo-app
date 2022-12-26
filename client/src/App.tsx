@@ -1,13 +1,14 @@
 import React, {Dispatch} from 'react';
 import "./App.css"
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Tasks from "./pages/Tasks/Tasks";
 import {User} from "./models/user";
 import {setUser} from "./redux/actions/setUserAction";
 import {connect} from "react-redux";
+import Profile from "./pages/Profile";
+import TodayTasks from "./pages/Tasks/TodayTasks";
 
 function App() {
     return (
@@ -15,11 +16,12 @@ function App() {
             <Router>
                 <Routes>
                     <Route path={'/login'} element={<Login/>}/>
-                    <Route path={'/'} element={<Home/>}/>
+                    <Route path={'/'} element={<TodayTasks/>}/>
                     <Route path={'/register'} element={<Register/>}/>
                     <Route path={'/tasks'}>
                         <Route index={true} element={<Tasks/>}/>
                     </Route>
+                    <Route path={'/profile'} element={<Profile/>}/>
                 </Routes>
             </Router>
         </div>
