@@ -17,10 +17,11 @@ server.use(express.json());
 const PORT: string | number = process.env.PORT || 4000;
 
 
-server.use(cors());
+server.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 server.use(routes);
 server.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("crossorigin", "*");
     res.setHeader(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"

@@ -91,6 +91,14 @@ const register = async (req: Request, res: Response): Promise<void> => {
             });
         });
 };
+const getUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const user: IUser | null = await User.findById(req.authInfo);
+        res.status(200).json({user});
+    } catch (error) {
+        res.status(400).json({message: error});
+    }
+};
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -136,4 +144,4 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-export {login, register, updateUser, deleteUser}
+export {login, register, updateUser, deleteUser, getUser}

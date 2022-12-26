@@ -1,6 +1,6 @@
-import {Request, Response, Router} from "express"
+import {Router} from "express"
 import {getTodos, addTodo, updateTodo, deleteTodo} from "./controllers/todos"
-import {register, deleteUser, login, updateUser} from "./controllers/users";
+import {register, deleteUser, login, updateUser, getUser} from "./controllers/users";
 
 const router: Router = Router();
 const auth = require("./auth");
@@ -15,15 +15,17 @@ router.delete("/delete-todo/:id", auth, deleteTodo);
 
 router.post("/login", login);
 
-router.post('/logout', (req, res) => {
-    res.cookie('token', '').send();
-});
-
 router.post("/register", register);
+
+router.get("/user", auth, getUser);
 
 router.put("/edit-user/:id", auth, updateUser);
 
 router.delete("/delete-user/:id", auth, deleteUser);
+
+router.post('/logout', (req, res) => {
+    res.cookie('token', '').send();
+});
 
 
 export default router;

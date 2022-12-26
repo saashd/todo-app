@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.register = exports.login = void 0;
+exports.getUser = exports.deleteUser = exports.updateUser = exports.register = exports.login = void 0;
 const user_1 = __importDefault(require("../../models/user"));
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -70,8 +70,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             password: hashedPassword,
         });
         // save the new user
-        user
-            .save()
+        user.save()
             // return success if the new user is added to the database successfully
             .then((result) => {
             res.status(201).send({
@@ -96,6 +95,16 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.register = register;
+const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield user_1.default.findById(req.authInfo);
+        res.status(200).json({ user });
+    }
+    catch (error) {
+        res.status(400).json({ message: error });
+    }
+});
+exports.getUser = getUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { params: { id }, body, } = req;
