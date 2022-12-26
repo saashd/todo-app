@@ -1,74 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import {addTodo, deleteTodo, getTodos, updateTodo} from "./API";
-import TodoItem from './pages/TodoItem';
-import AddTodo from './pages/AddTodo';
-import {Paper} from "@mui/material";
+import React, {Dispatch} from 'react';
 import "./App.css"
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Tasks from "./pages/Tasks/Tasks";
+import {User} from "./models/user";
+import {setUser} from "./redux/actions/setUserAction";
+import {connect} from "react-redux";
 
 function App() {
-    const [todos, setTodos] = useState<ITodo[]>([]);
-    useEffect(() => {
-        fetchTodos()
-    }, []);
-
-    const fetchTodos = (): void => {
-        getTodos()
-            .then(({data: {todos}}: ITodo[] | any) => setTodos(todos))
-            .catch((err: Error) => console.log(err))
-    };
-    const handleSaveTodo = (e: React.FormEvent, formData: ITodo): void => {
-        e.preventDefault();
-        addTodo(formData)
-            .then(({status, data}) => {
-                if (status !== 201) {
-                    throw new Error("Error! Todo not saved")
-                }
-                setTodos(data.todos)
-            })
-            .catch(err => console.log(err))
-    };
-    const handleUpdateTodo = (todo: ITodo): void => {
-        updateTodo(todo)
-            .then(({status, data}) => {
-                if (status !== 200) {
-                    throw new Error("Error! Todo not updated")
-                }
-                setTodos(data.todos)
-            })
-            .catch(err => console.log(err))
-    };
-
-    const handleDeleteTodo = (_id: string): void => {
-        deleteTodo(_id)
-            .then(({status, data}) => {
-                if (status !== 200) {
-                    throw new Error("Error! Todo not deleted")
-                }
-                setTodos(data.todos)
-            })
-            .catch(err => console.log(err))
-    };
     return (
         <div className='App'>
-            <h1>My Todos</h1>
-
-            <AddTodo saveTodo={handleSaveTodo}/>
-            {todos.map((todo: ITodo) => (
-                <Paper elevation={3}
-                       className={"paper"}
-
-                >
-                    <TodoItem
-                        key={todo._id}
-                        updateTodo={handleUpdateTodo}
-                        deleteTodo={handleDeleteTodo}
-                        todo={todo}
-                    />
-                </Paper>
-
-            ))}
+            <Router>
+                <Routes>
+                    <Route path={'/login'} element={<Login/>}/>
+                    <Route path={'/'} element={<Home/>}/>
+                    <Route path={'/register'} element={<Register/>}/>
+                    <Route path={'/tasks'}>
+                        <Route index={true} element={<Tasks/>}/>
+                    </Route>
+                </Routes>
+            </Router>
         </div>
     );
 }
 
-export default App;
+const mapStateToProps = (state: { user: User }) => {
+    return {
+        user: state.user
+    }
+
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+    return {
+        setUser: (user: User) => dispatch(setUser(user))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

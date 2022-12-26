@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {Navigate} from "react-router-dom";
 import {connect} from "react-redux";
 import {User} from "../models/user";
-import handleError from "../api";
+import {handleError} from "../API";
 
 function Nav(props: { user: User }) {
     const [signout, setSignout] = useState(false);

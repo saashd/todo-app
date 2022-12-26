@@ -12,25 +12,25 @@ function Menu() {
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to={"/users"} className="nav-link">
-                            Users
+                        <NavLink to={"/tasks"} className="nav-link">
+                            Tasks
                         </NavLink>
                     </li>
-                    <li className="nav-item">
-                        <NavLink to={"/roles"} className="nav-link">
-                            Roles
-                        </NavLink>
-                    </li>
-                     <li className="nav-item">
-                        <NavLink to={"/products"} className="nav-link">
-                            Products
-                        </NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink to={"/orders"} className="nav-link">
-                            Orders
-                        </NavLink>
-                    </li>
+                    {/*<li className="nav-item">*/}
+                    {/*    <NavLink to={"/roles"} className="nav-link">*/}
+                    {/*        Roles*/}
+                    {/*    </NavLink>*/}
+                    {/*</li>*/}
+                    {/* <li className="nav-item">*/}
+                    {/*    <NavLink to={"/products"} className="nav-link">*/}
+                    {/*        Products*/}
+                    {/*    </NavLink>*/}
+                    {/*</li>*/}
+                    {/*<li className="nav-item">*/}
+                    {/*    <NavLink to={"/orders"} className="nav-link">*/}
+                    {/*        Orders*/}
+                    {/*    </NavLink>*/}
+                    {/*</li>*/}
                 </ul>
             </div>
         </nav>
