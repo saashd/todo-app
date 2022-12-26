@@ -8,7 +8,9 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const index_1 = __importDefault(require("./index"));
 const server = (0, express_1.default)();
+const cookies = require("cookie-parser");
 const bodyParser = require('body-parser');
+server.use(cookies());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(express_1.default.urlencoded({ extended: false }));
@@ -28,5 +30,5 @@ mongoose_1.default.connect(uri).then(() => {
         console.log(`Server running on http://localhost:${PORT}`);
     });
 }).catch(error => {
-    throw error;
+    console.log(error);
 });

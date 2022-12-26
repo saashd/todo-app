@@ -12,16 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkAuth = exports.deleteUser = exports.updateUser = exports.register = exports.login = void 0;
+exports.deleteUser = exports.updateUser = exports.register = exports.login = void 0;
 const user_1 = __importDefault(require("../../models/user"));
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const checkAuth = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    response.status(200).send({
-        message: "You are authorized to access me"
-    });
-});
-exports.checkAuth = checkAuth;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ email: req.body.email })
         // if email exists
@@ -114,7 +108,10 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        throw error;
+        res.status(500).send({
+            message: "Error updating user",
+            error,
+        });
     }
 });
 exports.updateUser = updateUser;
@@ -129,7 +126,10 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        throw error;
+        res.status(500).send({
+            message: "Error deleting user",
+            error,
+        });
     }
 });
 exports.deleteUser = deleteUser;

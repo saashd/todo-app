@@ -3,14 +3,7 @@ import {IUser} from "../../types/user";
 import User from "../../models/user";
 
 const bcrypt = require("bcrypt");
-
 const jwt = require("jsonwebtoken");
-
-const checkAuth = async (request: Request, response: Response): Promise<void> => {
-    response.status(200).send({
-        message: "You are authorized to access me"
-    });
-}
 
 
 const login = async (req: Request, res: Response): Promise<void> => {
@@ -60,6 +53,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
             });
         });
 };
+
 
 const register = async (req: Request, res: Response): Promise<void> => {
     bcrypt.hash(req.body.password, 10)
@@ -115,7 +109,10 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
             users: allUsers,
         })
     } catch (error) {
-        throw error
+        res.status(500).send({
+            message: "Error updating user",
+            error,
+        });
     }
 };
 
@@ -132,8 +129,11 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
             users: allUsers,
         })
     } catch (error) {
-        throw error
+        res.status(500).send({
+            message: "Error deleting user",
+            error,
+        });
     }
 };
 
-export {login, register, updateUser, deleteUser,checkAuth}
+export {login, register, updateUser, deleteUser}

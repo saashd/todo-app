@@ -15,6 +15,10 @@ router.delete("/delete-todo/:id", auth, deleteTodo);
 
 router.post("/login", login);
 
+router.post('/logout', (req, res) => {
+    res.cookie('token', '').send();
+});
+
 router.post("/register", register);
 
 router.put("/edit-user/:id", auth, updateUser);

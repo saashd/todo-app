@@ -16,11 +16,11 @@ exports.deleteTodo = exports.updateTodo = exports.addTodo = exports.getTodos = v
 const todo_1 = __importDefault(require("../../models/todo"));
 const getTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const todos = yield todo_1.default.find();
+        const todos = yield todo_1.default.where({ uid: req.authInfo }).find();
         res.status(200).json({ todos });
     }
     catch (error) {
-        throw error;
+        res.status(400).json({ message: error });
     }
 });
 exports.getTodos = getTodos;
@@ -31,6 +31,7 @@ const addTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             name: body.name,
             description: body.description,
             status: body.status,
+            uid: req.authInfo,
         });
         const newTodo = yield todo.save();
         const allTodos = yield todo_1.default.find();
@@ -39,7 +40,6 @@ const addTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         res.status(400).json({ message: error });
-        throw error;
     }
 });
 exports.addTodo = addTodo;
@@ -55,7 +55,7 @@ const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        throw error;
+        res.status(400).json({ message: error });
     }
 });
 exports.updateTodo = updateTodo;
@@ -70,7 +70,7 @@ const deleteTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        throw error;
+        res.status(400).json({ message: error });
     }
 });
 exports.deleteTodo = deleteTodo;

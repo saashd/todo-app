@@ -1,5 +1,6 @@
 import {ITodo} from "../types/todo"
 import {model, Schema} from "mongoose"
+import mongoose from 'mongoose';
 
 const todoSchema: Schema = new Schema(
     {
@@ -17,6 +18,10 @@ const todoSchema: Schema = new Schema(
             type: Boolean,
             required: true,
         },
+        uid:{
+            type:mongoose.SchemaTypes.ObjectId,
+            required:true
+        }
     },
     {
         timestamps: true,

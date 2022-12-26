@@ -3,13 +3,12 @@ import {ITodo} from "../../types/todo"
 import Todo from "../../models/todo"
 
 
-
 const getTodos = async (req: Request, res: Response): Promise<void> => {
     try {
-        const todos: ITodo[] = await Todo.find();
-        res.status(200).json({todos})
+        const todos: ITodo[] = await Todo.where({uid: req.authInfo}).find();
+        res.status(200).json({todos});
     } catch (error) {
-        throw error
+        res.status(400).json({message: error});
     }
 };
 
@@ -20,6 +19,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
             name: body.name,
             description: body.description,
             status: body.status,
+            uid: req.authInfo,
         });
 
         const newTodo: ITodo = await todo.save();
@@ -28,8 +28,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
         res.status(201)
             .json({message: "Todo added", todo: newTodo, todos: allTodos})
     } catch (error) {
-         res.status(400).json({message: error});
-        throw error
+        res.status(400).json({message: error});
     }
 };
 
@@ -50,7 +49,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
             todos: allTodos,
         })
     } catch (error) {
-        throw error
+        res.status(400).json({message: error});
     }
 };
 
@@ -67,7 +66,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
             todos: allTodos,
         })
     } catch (error) {
-        throw error
+        res.status(400).json({message: error});
     }
 };
 

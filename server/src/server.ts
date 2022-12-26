@@ -5,11 +5,12 @@ import routes from "./index"
 
 
 const server: Express = express();
+const cookies = require("cookie-parser");
 const bodyParser = require('body-parser');
 
+server.use(cookies());
 server.use(bodyParser.urlencoded({extended: false}));
 server.use(bodyParser.json());
-
 server.use(express.urlencoded({extended: false}));
 server.use(express.json());
 
@@ -42,5 +43,5 @@ mongoose.connect(uri).then(() => {
         )
     }
 ).catch(error => {
-    throw error
+    console.log(error);
 });

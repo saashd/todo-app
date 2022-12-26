@@ -7,9 +7,8 @@ module.exports = async (request: Request, response: Response, next: NextFunction
         const token = request.header('Authorization')?.replace('Bearer ', '');
         const decodedToken = await jwt.verify(token, "RANDOM-TOKEN");
         const user = await decodedToken;
-        console.log(user)
         // pass the user down to the endpoints here
-        request.user = user;
+        request.authInfo=user.userId;
         // pass down functionality to the endpoint
         next();
 
