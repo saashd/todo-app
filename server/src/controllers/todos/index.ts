@@ -5,8 +5,19 @@ import Todo from "../../models/todo"
 
 const getTodos = async (req: Request, res: Response): Promise<void> => {
     try {
-        const todos: ITodo[] = await Todo.where({uid: req.authInfo}).find();
-        res.status(200).json({todos});
+        if (req.query.today) {
+            let now = new Date();
+            let start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 1, 0, 0);
+            let end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 59, 59);
+            let query = {createdAt: {$gte: start, $lt: end}};
+
+            const todos: ITodo[] = await Todo.where({uid: req.authInfo,}).find(query);
+            res.status(200).json({todos});
+        } else {
+            const todos: ITodo[] = await Todo.where({uid: req.authInfo}).find();
+            res.status(200).json({todos});
+        }
+
     } catch (error) {
         res.status(400).json({message: error});
     }

@@ -12,10 +12,11 @@ const TodayTasks = () => {
     }, []);
 
     const fetchTodos = (): void => {
-        getTodos()
+        getTodos({today: true})
             .then(({data: {todos}}: ITodo[] | any) => setTodos(todos))
             .catch((err: Error) => console.log(err))
     };
+
     const handleSaveTodo = (e: React.FormEvent, formData: ITodo): void => {
         e.preventDefault();
         addTodo(formData)
@@ -51,13 +52,12 @@ const TodayTasks = () => {
     return (
         <Wrapper>
             <h1>My Todos</h1>
-
             {todos.map((todo: ITodo) => (
                 <Paper elevation={3}
+                       key={todo._id}
                        className={"paper"}
                 >
                     <TodoItem
-                        key={todo._id}
                         updateTodo={handleUpdateTodo}
                         deleteTodo={handleDeleteTodo}
                         todo={todo}
