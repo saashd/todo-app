@@ -8,7 +8,7 @@ import {User} from "./models/user";
 import {setUser} from "./redux/actions/setUserAction";
 import {connect} from "react-redux";
 import Profile from "./pages/Profile";
-import TodayTasks from "./pages/Tasks/TodayTasks";
+import DailyTask from "./pages/Tasks/DailyTask";
 
 function App() {
     return (
@@ -16,7 +16,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path={'/login'} element={<Login/>}/>
-                    <Route path={'/'} element={<TodayTasks/>}/>
+                    <Route path={'/'} element={<DailyTask/>}/>
                     <Route path={'/register'} element={<Register/>}/>
                     <Route path={'/tasks'}>
                         <Route index={true} element={<Tasks/>}/>

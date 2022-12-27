@@ -9,8 +9,9 @@
 
 
 .paper {
-    left: 0;
-    right: 0;
     margin: auto;
-    width: 400px;
+    width: 500px;
+    padding:3%;
+    gap:5%;
+    display:grid;
 }
