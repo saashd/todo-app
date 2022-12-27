@@ -3,10 +3,8 @@ import {
     Checkbox, Collapse, IconButton,
     List,
     ListItem,
-    ListItemButton,
     ListItemSecondaryAction,
-    ListItemText, Paper,
-
+    ListItemText, Paper
 } from "@mui/material";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -17,7 +15,7 @@ type Props = TodoProps & {
     deleteTodo: (_id: string) => void
 }
 
-const Todo: React.FC<Props> = ({todo, updateTodo, deleteTodo}) => {
+const Todo: React.FC<Props> = ({updateTodo, deleteTodo, todo}) => {
     const [open, setOpen] = React.useState(false);
 
     const handleClick = () => {
@@ -25,35 +23,47 @@ const Todo: React.FC<Props> = ({todo, updateTodo, deleteTodo}) => {
     };
 
     return (
-        <div>
-            <Paper>
-                <List>
-                    <ListItem>
-                        <IconButton onClick={handleClick}>
-                            {open ? <ExpandLess/> : <ExpandMore/>}
+        <Paper style={{margin: "5%"}}>
+            <List>
+                <ListItem>
+                    <IconButton onClick={handleClick}>
+                        {open ? <ExpandLess/> : <ExpandMore/>}
+                    </IconButton>
+                    <Checkbox
+                        edge="start"
+                        style={{color: "#009688"}}
+                        checked={todo.status}
+                        onClick={() => updateTodo({...todo, status: !todo.status})}
+                    />
+                    <ListItemText primary={todo.name}
+                                  primaryTypographyProps={{
+                                      variant: 'subtitle1',
+                                      style: {
+                                          whiteSpace: 'nowrap',
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          textDecorationLine: todo.status ? "line-through" : "none"
+                                      }
+                                  }}/>
+                    <ListItemSecondaryAction>
+                        <IconButton onClick={() => deleteTodo(todo._id)}>
+                            <DeleteIcon/>
                         </IconButton>
-                        <Checkbox
-                            edge="start"
-                            checked={todo.status}
-                            onClick={() => updateTodo({...todo, status: !todo.status})}
-                        />
-                        <ListItemText primary={todo.name}/>
-                        <ListItemSecondaryAction>
-                            <IconButton onClick={() => deleteTodo(todo._id)}>
-                                <DeleteIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemText primary={todo.description}/>
-                            </ListItemButton>
-                        </List>
-                    </Collapse>
-                </List>
-            </Paper>
-        </div>
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <div style={{
+                        inlineSize: " 150px",
+                        overflowWrap: "break-word",
+                        margin: "auto"
+                    }}>
+
+                        {todo.description}
+
+                    </div>
+                </Collapse>
+            </List>
+        </Paper>
     )
 };
 

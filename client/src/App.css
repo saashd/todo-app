@@ -5,13 +5,3 @@
 
 
 }
-
-
-
-.paper {
-    margin: auto;
-    width: 500px;
-    padding:3%;
-    gap:5%;
-    display:grid;
-}

@@ -3,7 +3,7 @@ import "./App.css"
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Tasks from "./pages/Tasks/Tasks";
+import WeeklyTasks from "./pages/Tasks/WeeklyTasks";
 import {User} from "./models/user";
 import {setUser} from "./redux/actions/setUserAction";
 import {connect} from "react-redux";
@@ -19,7 +19,7 @@ function App() {
                     <Route path={'/'} element={<DailyTask/>}/>
                     <Route path={'/register'} element={<Register/>}/>
                     <Route path={'/tasks'}>
-                        <Route index={true} element={<Tasks/>}/>
+                        <Route index={true} element={<WeeklyTasks/>}/>
                     </Route>
                     <Route path={'/profile'} element={<Profile/>}/>
                 </Routes>
