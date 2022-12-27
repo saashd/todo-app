@@ -2,16 +2,16 @@ import {Response, Request} from "express"
 import {ITodo} from "../../types/todo"
 import Todo from "../../models/todo"
 
+const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 
 const getTodos = async (req: Request, res: Response): Promise<void> => {
     try {
-        if (req.query.today==="true") {
-            let now = new Date();
-            let start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 1, 0, 0);
-            let end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 59, 59);
-            let query = {createdAt: {$gte: start, $lt: end}};
+        if (req.query.today === "true") {
+            const d = new Date();
+            const day = weekday[d.getDay()];
 
-            const todos: ITodo[] = await Todo.where({uid: req.authInfo,}).find(query);
+            const todos: ITodo[] = await Todo.where({uid: req.authInfo,day:day}).find();
             res.status(200).json({todos});
         } else {
             const todos: ITodo[] = await Todo.where({uid: req.authInfo}).find();
@@ -24,12 +24,14 @@ const getTodos = async (req: Request, res: Response): Promise<void> => {
 
 const addTodo = async (req: Request, res: Response): Promise<void> => {
     try {
-        const body = req.body as Pick<ITodo, "name" | "description" | "status">;
+        const body = req.body as Pick<ITodo, "name" | "description" | "status" | "day">;
+        console.log(body.day)
         const todo: ITodo = new Todo({
             name: body.name,
             description: body.description,
             status: body.status,
-            uid: req.authInfo,
+            day: body.day,
+            uid: req.authInfo
         });
 
         const newTodo: ITodo = await todo.save();

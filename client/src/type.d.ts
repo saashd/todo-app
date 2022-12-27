@@ -3,6 +3,7 @@ interface ITodo {
   name: string
   description: string
   status: boolean
+  day: string
   createdAt?: string
   updatedAt?: string
 }
@@ -14,6 +15,5 @@ interface TodoProps {
 type ApiDataType = {
   message: string
   status: string
-  todos: ITodo[]
   todo?: ITodo
 }

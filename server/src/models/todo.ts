@@ -18,9 +18,13 @@ const todoSchema: Schema = new Schema(
             type: Boolean,
             required: true,
         },
-        uid:{
-            type:mongoose.SchemaTypes.ObjectId,
-            required:true
+        uid: {
+            type: mongoose.SchemaTypes.ObjectId,
+            required: true
+        },
+        day: {
+            type: String,
+            required: true
         }
     },
     {

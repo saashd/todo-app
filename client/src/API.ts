@@ -2,6 +2,7 @@ import axios, {AxiosResponse} from "axios"
 
 const baseUrl: string = "http://localhost:4000";
 
+const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export const getTodos = async (params = {today: false}): Promise<AxiosResponse<ApiDataType>> => {
     try {
@@ -13,21 +14,25 @@ export const getTodos = async (params = {today: false}): Promise<AxiosResponse<A
     }
 };
 
-export const addTodo = async (
-    formData: ITodo
-): Promise<AxiosResponse<ApiDataType>> => {
+export const addTodo = async (formData: ITodo): Promise<AxiosResponse<ApiDataType>> => {
     try {
+        if (formData.day==='') {
+            const d = new Date();
+            formData.day = weekday[d.getDay()];
+        }
+
         const todo: Omit<ITodo, "_id"> = {
             name: formData.name,
             description: formData.description,
-            status: false,
+            status:false,
+            day: formData.day
         };
         return await axios.post(
             baseUrl + "/add-todo", todo)
     } catch (error: any) {
         throw new Error(error)
     }
-}
+};
 
 
 export const updateTodo = async (

@@ -21,6 +21,10 @@ const todoSchema = new mongoose_1.Schema({
     uid: {
         type: mongoose_2.default.SchemaTypes.ObjectId,
         required: true
+    },
+    day: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true,
