@@ -34,7 +34,7 @@ function Wrapper(props: any) {
 
             }
         })();
-    }, [token,props]);
+    }, []);
 
     if (redirect) {
         return <Navigate to={'/login'}/>;
