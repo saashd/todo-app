@@ -23,7 +23,7 @@ const Tasks = () => {
                 if (status !== 201) {
                     throw new Error("Error! Todo not saved")
                 }
-                setTodos(data.todos)
+                setTodos([...todos,data.todo!]);
             })
             .catch(err => console.log(err))
     };
@@ -33,7 +33,9 @@ const Tasks = () => {
                 if (status !== 200) {
                     throw new Error("Error! Todo not updated")
                 }
-                setTodos(data.todos)
+                setTodos(todos.map((t: ITodo) => {
+                    return t._id === todo._id ? todo : t
+                }))
             })
             .catch(err => console.log(err))
     };
@@ -44,7 +46,9 @@ const Tasks = () => {
                 if (status !== 200) {
                     throw new Error("Error! Todo not deleted")
                 }
-                setTodos(data.todos)
+                setTodos(todos.filter((t: ITodo) => {
+                    return t._id !== _id
+                }));
             })
             .catch(err => console.log(err))
     };
@@ -52,20 +56,18 @@ const Tasks = () => {
         <Wrapper>
             <h1>My Todos</h1>
 
-            <AddTodo saveTodo={handleSaveTodo}/>
-            {todos.map((todo: ITodo) => (
-                <Paper elevation={3}
-                       className={"paper"}
 
-                >
+            <Paper elevation={3} className={"paper"}>
+            {todos.map((todo: ITodo) => (
                     <TodoItem
                         key={todo._id}
                         updateTodo={handleUpdateTodo}
                         deleteTodo={handleDeleteTodo}
                         todo={todo}
                     />
-                </Paper>
             ))}
+            <AddTodo saveTodo={handleSaveTodo}/>
+            </Paper>
         </Wrapper>
     )
 }

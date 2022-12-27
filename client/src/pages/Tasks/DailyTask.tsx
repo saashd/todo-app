@@ -1,11 +1,10 @@
-import AddTodo from "./AddTodo";
 import {Paper} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {addTodo, deleteTodo, getTodos, updateTodo} from "../../API";
+import {deleteTodo, getTodos, updateTodo} from "../../API";
 import TodoItem from "./TodoItem";
 import Wrapper from "../../components/Wrapper";
 
-const TodayTasks = () => {
+const DailyTask = () => {
     const [todos, setTodos] = useState<ITodo[]>([]);
     useEffect(() => {
         fetchTodos()
@@ -17,24 +16,15 @@ const TodayTasks = () => {
             .catch((err: Error) => console.log(err))
     };
 
-    const handleSaveTodo = (e: React.FormEvent, formData: ITodo): void => {
-        e.preventDefault();
-        addTodo(formData)
-            .then(({status, data}) => {
-                if (status !== 201) {
-                    throw new Error("Error! Todo not saved")
-                }
-                setTodos(data.todos)
-            })
-            .catch(err => console.log(err))
-    };
     const handleUpdateTodo = (todo: ITodo): void => {
         updateTodo(todo)
             .then(({status, data}) => {
                 if (status !== 200) {
                     throw new Error("Error! Todo not updated")
                 }
-                setTodos(data.todos)
+                setTodos(todos.map((t: ITodo) => {
+                    return t._id === todo._id ? todo : t
+                }))
             })
             .catch(err => console.log(err))
     };
@@ -45,7 +35,9 @@ const TodayTasks = () => {
                 if (status !== 200) {
                     throw new Error("Error! Todo not deleted")
                 }
-                setTodos(data.todos)
+                setTodos(todos.filter((t: ITodo) => {
+                    return t._id !== _id
+                }));
             })
             .catch(err => console.log(err))
     };
@@ -69,4 +61,4 @@ const TodayTasks = () => {
 }
 
 
-export default TodayTasks;
+export default DailyTask;

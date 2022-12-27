@@ -1,16 +1,16 @@
 import React from "react"
 import {
-    Box, Button, Checkbox, Collapse,
-    Divider,
+    Checkbox, Collapse, IconButton,
     List,
     ListItem,
     ListItemButton,
     ListItemSecondaryAction,
-    ListItemText,
+    ListItemText, Paper,
 
 } from "@mui/material";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type Props = TodoProps & {
     updateTodo: (todo: ITodo) => void
@@ -26,30 +26,23 @@ const Todo: React.FC<Props> = ({todo, updateTodo, deleteTodo}) => {
 
     return (
         <div>
-            <Box>
-                <Divider/>
+            <Paper>
                 <List>
                     <ListItem>
-                        <ListItemButton onClick={handleClick}>
+                        <IconButton onClick={handleClick}>
                             {open ? <ExpandLess/> : <ExpandMore/>}
-                            <Checkbox
-                                edge="start"
-                                checked={todo.status}
-                                tabIndex={-1}
-                                disableRipple
-                            />
-                            <ListItemText primary={todo.name}/>
-                            <ListItemSecondaryAction>
-                                <Button
-                                    style={{visibility: todo.status ? "hidden" : "visible"}}
-                                    onClick={() => updateTodo(todo)}>
-                                    Complete
-                                </Button>
-                                <Button
-                                    onClick={() => deleteTodo(todo._id)}>Delete
-                                </Button>
-                            </ListItemSecondaryAction>
-                        </ListItemButton>
+                        </IconButton>
+                        <Checkbox
+                            edge="start"
+                            checked={todo.status}
+                            onClick={() => updateTodo({...todo, status: !todo.status})}
+                        />
+                        <ListItemText primary={todo.name}/>
+                        <ListItemSecondaryAction>
+                            <IconButton onClick={() => deleteTodo(todo._id)}>
+                                <DeleteIcon/>
+                            </IconButton>
+                        </ListItemSecondaryAction>
                     </ListItem>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
@@ -59,9 +52,9 @@ const Todo: React.FC<Props> = ({todo, updateTodo, deleteTodo}) => {
                         </List>
                     </Collapse>
                 </List>
-            </Box>
+            </Paper>
         </div>
     )
-}
+};
 
 export default Todo

@@ -1,11 +1,12 @@
 import React, {ChangeEvent, useState} from 'react'
-import {Button, TextField} from "@mui/material";
+import {Button, Dialog, TextField} from "@mui/material";
 
 type Props = {
     saveTodo: (e: React.FormEvent, formData: ITodo | any) => void
 }
 
 const AddTodo: React.FC<Props> = ({saveTodo}) => {
+    const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<ITodo | {}>();
 
     const handleForm = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -13,17 +14,32 @@ const AddTodo: React.FC<Props> = ({saveTodo}) => {
             ...formData,
             [e.target.id]: e.target.value,
         })
-    }
+    };
 
     return (
-        <form className='Form' onSubmit={(e) => saveTodo(e, formData)}
-        style={{display:"inline-grid",margin:"2%"}}>
-            <div style={{display:"grid",rowGap:"10px"}}>
-                <TextField label='Name' type='text' id='name' onChange={handleForm}/>
-                <TextField label='Description' type='text' id='description' onChange={handleForm}/>
-            </div>
-            <Button disabled={formData === undefined}>Add Todo</Button>
-        </form>
+        <div>
+            <Button variant="outlined" onClick={() => {
+                setOpen(!open)
+            }}>
+                Add Task
+            </Button>
+            <Dialog
+                fullWidth={true}
+                open={open}
+                    onClose={() => {
+                        setOpen(!open)
+                    }}>
+                <form className='Form' onSubmit={(e) => saveTodo(e, formData)}
+                      style={{padding: "5%",textAlign:"center"}}>
+                    <div style={{display: "grid", rowGap: "15px"}}>
+                        <TextField label='Name' type='text' id='name' onChange={handleForm}/>
+                        <TextField label='Description' type='text' id='description' onChange={handleForm}/>
+                    </div>
+                    <Button  style={{margin:"2%"}} variant="outlined" type="submit">Save</Button>
+                </form>
+            </Dialog>
+        </div>
+
     )
 }
 
