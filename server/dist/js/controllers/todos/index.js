@@ -16,7 +16,7 @@ exports.deleteTodo = exports.updateTodo = exports.addTodo = exports.getTodos = v
 const todo_1 = __importDefault(require("../../models/todo"));
 const getTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (req.query.today) {
+        if (req.query.today === "true") {
             let now = new Date();
             let start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 1, 0, 0);
             let end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 59, 59);
@@ -44,9 +44,8 @@ const addTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             uid: req.authInfo,
         });
         const newTodo = yield todo.save();
-        const allTodos = yield todo_1.default.find();
         res.status(201)
-            .json({ message: "Todo added", todo: newTodo, todos: allTodos });
+            .json({ message: "Todo added", todo: newTodo });
     }
     catch (error) {
         res.status(400).json({ message: error });
@@ -57,11 +56,9 @@ const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { params: { id }, body, } = req;
         const updateTodo = yield todo_1.default.findByIdAndUpdate({ _id: id }, body);
-        const allTodos = yield todo_1.default.find();
         res.status(200).json({
             message: "Todo updated",
-            todo: updateTodo,
-            todos: allTodos,
+            todo: updateTodo
         });
     }
     catch (error) {
@@ -72,11 +69,9 @@ exports.updateTodo = updateTodo;
 const deleteTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deletedTodo = yield todo_1.default.findByIdAndRemove(req.params.id);
-        const allTodos = yield todo_1.default.find();
         res.status(200).json({
             message: "Todo deleted",
-            todo: deletedTodo,
-            todos: allTodos,
+            todo: deletedTodo
         });
     }
     catch (error) {

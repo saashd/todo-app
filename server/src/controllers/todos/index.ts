@@ -5,7 +5,7 @@ import Todo from "../../models/todo"
 
 const getTodos = async (req: Request, res: Response): Promise<void> => {
     try {
-        if (req.query.today) {
+        if (req.query.today==="true") {
             let now = new Date();
             let start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 1, 0, 0);
             let end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 59, 59);
@@ -17,7 +17,6 @@ const getTodos = async (req: Request, res: Response): Promise<void> => {
             const todos: ITodo[] = await Todo.where({uid: req.authInfo}).find();
             res.status(200).json({todos});
         }
-
     } catch (error) {
         res.status(400).json({message: error});
     }
@@ -34,10 +33,9 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
         });
 
         const newTodo: ITodo = await todo.save();
-        const allTodos: ITodo[] = await Todo.find();
 
         res.status(201)
-            .json({message: "Todo added", todo: newTodo, todos: allTodos})
+            .json({message: "Todo added", todo: newTodo})
     } catch (error) {
         res.status(400).json({message: error});
     }
@@ -53,11 +51,9 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
             {_id: id},
             body
         );
-        const allTodos: ITodo[] = await Todo.find();
         res.status(200).json({
             message: "Todo updated",
-            todo: updateTodo,
-            todos: allTodos,
+            todo: updateTodo
         })
     } catch (error) {
         res.status(400).json({message: error});
@@ -70,11 +66,9 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
         const deletedTodo: ITodo | null = await Todo.findByIdAndRemove(
             req.params.id
         );
-        const allTodos: ITodo[] = await Todo.find();
         res.status(200).json({
             message: "Todo deleted",
-            todo: deletedTodo,
-            todos: allTodos,
+            todo: deletedTodo
         })
     } catch (error) {
         res.status(400).json({message: error});
