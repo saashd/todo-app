@@ -1,5 +1,4 @@
 import React, {Dispatch} from 'react';
-import "./App.css"
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -12,7 +11,11 @@ import DailyTask from "./pages/Tasks/DailyTask";
 
 function App() {
     return (
-        <div className='App'>
+        <div style={{
+            textAlign: 'center',
+            width: '100vw',
+            height: '100vh'
+        }}>
             <Router>
                 <Routes>
                     <Route path={'/login'} element={<Login/>}/>

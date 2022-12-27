@@ -3,7 +3,7 @@ import React, {SyntheticEvent, useState} from "react";
 import {Navigate} from "react-router-dom";
 import {handleError} from "../API";
 import Cookies from "universal-cookie";
-import {Box, Button, Paper, TextField} from "@mui/material";
+import {Box, Button, TextField} from "@mui/material";
 
 const cookies = new Cookies();
 
@@ -43,8 +43,6 @@ function Login() {
                 }}
             >
                 <h1>Please sign in</h1>
-                {/*<Paper style={{display:"inline-gird"}}*/}
-                {/*>*/}
                 <TextField type="email" placeholder="name@example.com" required
                            onChange={(e) => {
                                setEmail(e.target.value)
@@ -53,7 +51,6 @@ function Login() {
                            onChange={(e) => {
                                setPassword(e.target.value)
                            }}/>
-                {/*</Paper>*/}
             </Box>
             <Button style={{marginTop:20}} variant="outlined" type="submit">Login</Button>
 

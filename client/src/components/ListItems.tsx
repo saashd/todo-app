@@ -1,5 +1,5 @@
 import {makeStyles} from "@mui/styles";
-import {List, ListItem, ListItemText, Tooltip} from "@mui/material";
+import {List, ListItem, ListItemText} from "@mui/material";
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
@@ -35,7 +35,7 @@ function ListItems() {
         <div style={{paddingLeft: 5}}>
             <List>
                 {[{index: 1, linkTo: "/", title: "My Day"},
-                    {index: 2, linkTo: "/tasks", title: "Tasks"},
+                    {index: 2, linkTo: "/tasks", title: "My Week"},
                 ].map((item, index) => (
                     <ListItem key={item.index}
                               selected={selectedIndex === item.index}

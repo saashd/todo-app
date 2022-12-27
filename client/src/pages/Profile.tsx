@@ -5,6 +5,7 @@ import {User} from "../models/user";
 import {connect} from "react-redux";
 import {setUser} from "../redux/actions/setUserAction";
 import {handleError} from "../API";
+import {Button, Grid, TextField} from "@mui/material";
 
 function Profile(props: { user: User, setUser: (user: User) => void }) {
     const [state, setState] = useState({
@@ -18,12 +19,12 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
 
     useEffect(() => {
             (async () => {
-                setState({
+                setState(state=>({
                     ...state,
                     first_name: props.user.first_name,
                     last_name: props.user.last_name,
                     email: props.user.email
-                })
+                }))
             })();
         }, [props.user]
     );
@@ -71,54 +72,45 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
 
     return (
         <Wrapper>
-            <h2>Account Information</h2>
-            <hr/>
-            <form onSubmit={updateInfo}>
-                <div className="form-group">
-                    <label>First Name</label>
-                    <input type="text" className="form-control" name="first_name"
-                           defaultValue={state.first_name}
-                           onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Last Name</label>
-                    <input type="text" className="form-control" name="last_name"
-                           defaultValue={state.last_name}
-                           onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Email</label>
-                    <input type="text" className="form-control" name="email"
-                           defaultValue={state.email}
-                           onChange={handleChange}
-                    />
-                </div>
+            <Grid container justifyContent="center"
+                      alignItems="center" spacing={3}
+            style={{left:0,right:0,position:"fixed"}}>
+                <Grid item xs={12}>
+                    <h2>Account Information</h2>
+                    <form onSubmit={updateInfo}>
+                        <div style={{display: "inline-grid",gap:"3%"}}>
+                            <TextField name="first_name" placeholder="First Name"
+                                       defaultValue={state.first_name} required
+                                       onChange={handleChange}/>
+                            <TextField name="last_name" placeholder="Last Name"
+                                       defaultValue={state.last_name} required
+                                       onChange={handleChange}/>
 
-                <button className="btn btn-outline-secondary">Save</button>
-            </form>
-
-            <h2 className="mt-4">Change Password</h2>
-            <hr/>
-            <form onSubmit={updatePassword}>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" className="form-control" name="password"
-                           onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Password Confirm</label>
-                    <input type="password" className="form-control" name="password_confirm"
-                           onChange={handleChange}
-                    />
-                </div>
-
-                <button className="btn btn-outline-secondary">Save</button>
-            </form>
+                            <TextField type="text" name="email" placeholder="Email"
+                                       defaultValue={state.email} required
+                                       onChange={handleChange}/>
+                            <Button type="submit">Save</Button>
+                        </div>
+                    </form>
+                </Grid>
+                <Grid item xs={12}>
+                    <h2>Change Password</h2>
+                    <form onSubmit={updatePassword}>
+                        <div style={{display: "inline-grid",gap:"3%"}}>
+                            <TextField type="password" name="password" placeholder="Password"
+                                       defaultValue={state.password} required
+                                       onChange={handleChange}/>
+                            <TextField type="password" name="password_confirm" placeholder="Password Confirm"
+                                       defaultValue={state.password_confirm} required
+                                       onChange={handleChange}/>
+                            <Button type="submit">Save</Button>
+                        </div>
+                    </form>
+                </Grid>
+            </Grid>
         </Wrapper>
-    );
+    )
+        ;
 }
 
 

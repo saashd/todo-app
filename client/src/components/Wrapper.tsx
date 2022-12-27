@@ -34,20 +34,19 @@ function Wrapper(props: any) {
 
             }
         })();
-    }, []);
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token]);
 
     if (redirect) {
         return <Navigate to={'/login'}/>;
     }
-    return (<div style={{
-        display: 'flex',
-        height: "100%",
-        width: "100%"
-    }}>
+    return (<div>
         <Nav/>
         <main style={{
-            flexGrow: 1,
-            width: '95%',
+            top:"64px",
+            left: "240px",
+            position: 'absolute',
+            padding:"2%"
         }}>
             {props.children}
         </main>

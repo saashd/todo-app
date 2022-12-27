@@ -13,6 +13,7 @@ import {
     Typography
 } from "@mui/material";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ListItems from "./ListItems";
 
 
@@ -37,13 +38,18 @@ function Nav(props: { user: User }) {
     return (
         <div>
             <CssBaseline/>
-            <AppBar position="fixed">
+            <AppBar position="fixed" style={{background:"#673ab7"}}>
                 <Toolbar>
-                    <Typography style={{fontSize: '2vh'}} color="inherit">
-                        Welcome
+                    <Typography variant="h6" style={{fontFamily: "cursive"}} color="inherit">
+                        Welcome {props.user.name}
                     </Typography>
                     <div style={{flexGrow: 1}}/>
-                    <Link to="/profile" style={{textDecoration: 'none', color: "white"}}>{props.user.name}</Link>
+
+                    <Tooltip title="Profile" aria-label="Profile" arrow>
+                        <IconButton color="inherit" component={Link} to="/profile">
+                            <AccountCircleIcon/>
+                        </IconButton>
+                    </Tooltip>
                     <Tooltip title="Sign Out" aria-label="Sign Out" arrow>
                         <IconButton color="inherit" onClick={logout}>
                             <ExitToAppIcon/>
