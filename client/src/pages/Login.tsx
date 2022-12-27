@@ -3,6 +3,8 @@ import React, {SyntheticEvent, useState} from "react";
 import {Navigate} from "react-router-dom";
 import {handleError} from "../API";
 import Cookies from "universal-cookie";
+import {Box, Button, Paper, TextField} from "@mui/material";
+
 const cookies = new Cookies();
 
 function Login() {
@@ -29,18 +31,31 @@ function Login() {
         return <Navigate to={'/'}/>;
     }
 
-    return (<main className="form-signin w-100 m-auto">
+    return (<main>
         <form onSubmit={submit}>
-            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-            <input type="email" className="form-control" placeholder="name@example.com" required
-                   onChange={(e) => {
-                       setEmail(e.target.value)
-                   }}/>
-            <input type="password" className="form-control" placeholder="Password" required
-                   onChange={(e) => {
-                       setPassword(e.target.value)
-                   }}/>
-            <button className="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+            <Box
+                sx={{
+                    paddingLeft:70,
+                    paddingRight:70,
+                    bgcolor: 'background.default',
+                    display: 'grid',
+                    gap: 2,
+                }}
+            >
+                <h1>Please sign in</h1>
+                {/*<Paper style={{display:"inline-gird"}}*/}
+                {/*>*/}
+                <TextField type="email" placeholder="name@example.com" required
+                           onChange={(e) => {
+                               setEmail(e.target.value)
+                           }}/>
+                <TextField type="password" placeholder="Password" required
+                           onChange={(e) => {
+                               setPassword(e.target.value)
+                           }}/>
+                {/*</Paper>*/}
+            </Box>
+            <Button style={{marginTop:20}} variant="outlined" type="submit">Login</Button>
 
         </form>
     </main>)
