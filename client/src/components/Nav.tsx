@@ -37,11 +37,7 @@ function Nav(props: { user: User }) {
     return (
         <div>
             <CssBaseline/>
-            <AppBar position="fixed"
-                    sx={{
-                        width: {sm: `calc(100% - ${drawerWidth}px)`},
-                        ml: {sm: `${drawerWidth}px`},
-                    }}>
+            <AppBar position="fixed">
                 <Toolbar>
                     <Typography style={{fontSize: '2vh'}} color="inherit">
                         Welcome
@@ -55,10 +51,10 @@ function Nav(props: { user: User }) {
                     </Tooltip>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}>
+            <Drawer variant="permanent"
+                    sx={{
+                        '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth,height: 'calc(100% - 64px)', top: 64,},
+                    }}>
                 <Divider/>
                 <ListItems/>
             </Drawer>
