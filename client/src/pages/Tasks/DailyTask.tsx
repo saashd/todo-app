@@ -1,6 +1,6 @@
 import {Paper} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {addTodo, deleteTodo, getTodos, updateTodo} from "../../API";
+import {addTodo, deleteTodo, getTodos, handleError, updateTodo} from "../../API";
 import TodoItem from "./TodoItem";
 import Wrapper from "../../components/Wrapper";
 import AddTodo from "./AddTodo";
@@ -14,7 +14,7 @@ const DailyTask = () => {
     const fetchTodos = (): void => {
         getTodos({today: true})
             .then(({data: {todos}}: ITodo[] | any) => setTodos(todos))
-            .catch((err: Error) => console.log(err))
+            .catch((err: Error) => handleError(err))
     };
     const handleSaveTodo = (e: React.FormEvent, formData: ITodo): void => {
         e.preventDefault();
@@ -25,7 +25,7 @@ const DailyTask = () => {
                 }
                 setTodos([...todos, data.todo!]);
             })
-            .catch(err => console.log(err))
+            .catch(err => handleError(err))
     };
 
     const handleUpdateTodo = (todo: ITodo): void => {
@@ -38,7 +38,7 @@ const DailyTask = () => {
                     return t._id === todo._id ? todo : t
                 }))
             })
-            .catch(err => console.log(err))
+            .catch(err => handleError(err))
     };
 
     const handleDeleteTodo = (_id: string): void => {
@@ -51,7 +51,7 @@ const DailyTask = () => {
                     return t._id !== _id
                 }));
             })
-            .catch(err => console.log(err))
+            .catch(err => handleError(err))
     };
     return (
         <Wrapper>
