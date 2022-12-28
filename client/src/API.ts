@@ -16,7 +16,7 @@ export const getTodos = async (params = {today: false}): Promise<AxiosResponse<A
 
 export const addTodo = async (formData: ITodo): Promise<AxiosResponse<ApiDataType>> => {
     try {
-        if (formData.day==='') {
+        if (formData.day === '') {
             const d = new Date();
             formData.day = weekday[d.getDay()];
         }
@@ -24,7 +24,7 @@ export const addTodo = async (formData: ITodo): Promise<AxiosResponse<ApiDataTyp
         const todo: Omit<ITodo, "_id"> = {
             name: formData.name,
             description: formData.description,
-            status:false,
+            status: false,
             day: formData.day
         };
         return await axios.post(
@@ -73,4 +73,30 @@ export const handleError = (error: any) => {
     }
     console.log(error.config);
 
+};
+
+export const updateUser = async (
+    user: any
+): Promise<AxiosResponse<ApiDataType>> => {
+    try {
+        return await axios.put(
+            `${baseUrl}/edit-user/${user._id}`,
+            user
+        )
+    } catch (error: any) {
+        throw new Error(error)
+    }
+};
+
+export const changePassword = async (
+    data: any
+): Promise<AxiosResponse<ApiDataType>> => {
+    try {
+        return await axios.put(
+            `${baseUrl}/edit-password/${data.id}`,
+            data
+        )
+    } catch (error: any) {
+        throw new Error(error)
+    }
 };

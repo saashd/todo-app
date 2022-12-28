@@ -25,7 +25,6 @@ const getTodos = async (req: Request, res: Response): Promise<void> => {
 const addTodo = async (req: Request, res: Response): Promise<void> => {
     try {
         const body = req.body as Pick<ITodo, "name" | "description" | "status" | "day">;
-        console.log(body.day)
         const todo: ITodo = new Todo({
             name: body.name,
             description: body.description,

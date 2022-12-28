@@ -23,7 +23,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
                     //   create JWT token
                     const token = jwt.sign(
                         {
-                            userId: user!._id,
+                            userId: user!.id,
                             userEmail: user!.email,
                         },
                         "RANDOM-TOKEN",
@@ -110,11 +110,9 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
             {_id: id},
             body
         );
-        const allUsers: IUser[] = await User.find();
         res.status(200).json({
             message: "User updated",
             user: updateUser,
-            users: allUsers,
         })
     } catch (error) {
         res.status(500).send({
@@ -124,17 +122,36 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
+const updatePassword = async (req: Request, res: Response): Promise<void> => {
+    bcrypt.hash(req.body.password, 10)
+        .then(async (hashedPassword: string) => {
+            const updateUser: IUser | null = await User.findByIdAndUpdate(
+                {_id: req.body.id},
+                {password: hashedPassword}
+            );
+            res.status(200).json({
+                message: "Password updated",
+                user: updateUser,
+            })
+        })
+        // catch error if the password hash isn't successful
+        .catch((error: any) => {
+            res.status(500).send({
+                message: "Password was not hashed successfully",
+                error,
+            });
+        });
+};
+
 
 const deleteUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const deletedUser: IUser | null = await User.findByIdAndRemove(
             req.params.id
         );
-        const allUsers: IUser[] = await User.find();
         res.status(200).json({
             message: "User deleted",
             user: deletedUser,
-            users: allUsers,
         })
     } catch (error) {
         res.status(500).send({
@@ -144,4 +161,4 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-export {login, register, updateUser, deleteUser, getUser}
+export {login, register, updateUser, deleteUser, getUser, updatePassword}

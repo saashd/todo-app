@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.deleteUser = exports.updateUser = exports.register = exports.login = void 0;
+exports.updatePassword = exports.getUser = exports.deleteUser = exports.updateUser = exports.register = exports.login = void 0;
 const user_1 = __importDefault(require("../../models/user"));
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -32,7 +32,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             }
             //   create JWT token
             const token = jwt.sign({
-                userId: user._id,
+                userId: user.id,
                 userEmail: user.email,
             }, "RANDOM-TOKEN", { expiresIn: "24h" });
             //   return success response
@@ -70,7 +70,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             password: hashedPassword,
         });
         // save the new user
-        user.save()
+        user
+            .save()
             // return success if the new user is added to the database successfully
             .then((result) => {
             res.status(201).send({
@@ -109,11 +110,9 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { params: { id }, body, } = req;
         const updateUser = yield user_1.default.findByIdAndUpdate({ _id: id }, body);
-        const allUsers = yield user_1.default.find();
         res.status(200).json({
             message: "User updated",
             user: updateUser,
-            users: allUsers,
         });
     }
     catch (error) {
@@ -124,14 +123,30 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateUser = updateUser;
+const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    bcrypt.hash(req.body.password, 10)
+        .then((hashedPassword) => __awaiter(void 0, void 0, void 0, function* () {
+        const updateUser = yield user_1.default.findByIdAndUpdate({ _id: req.body.id }, { password: hashedPassword });
+        res.status(200).json({
+            message: "Password updated",
+            user: updateUser,
+        });
+    }))
+        // catch error if the password hash isn't successful
+        .catch((error) => {
+        res.status(500).send({
+            message: "Password was not hashed successfully",
+            error,
+        });
+    });
+});
+exports.updatePassword = updatePassword;
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deletedUser = yield user_1.default.findByIdAndRemove(req.params.id);
-        const allUsers = yield user_1.default.find();
         res.status(200).json({
             message: "User deleted",
             user: deletedUser,
-            users: allUsers,
         });
     }
     catch (error) {

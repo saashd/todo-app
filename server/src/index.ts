@@ -1,6 +1,6 @@
 import {Router} from "express"
 import {getTodos, addTodo, updateTodo, deleteTodo} from "./controllers/todos"
-import {register, deleteUser, login, updateUser, getUser} from "./controllers/users";
+import {register, deleteUser, login, updateUser, getUser, updatePassword} from "./controllers/users";
 
 const router: Router = Router();
 const auth = require("./auth");
@@ -20,6 +20,8 @@ router.post("/register", register);
 router.get("/user", auth, getUser);
 
 router.put("/edit-user/:id", auth, updateUser);
+
+router.put("/edit-password/:id", auth, updatePassword);
 
 router.delete("/delete-user/:id", auth, deleteUser);
 
