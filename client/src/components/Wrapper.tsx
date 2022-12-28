@@ -20,11 +20,7 @@ function Wrapper(props: any) {
                     axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
                     const {data} = await axios.get('user');
                     props.setUser(
-                        new User(
-                            data.user._id,
-                            data.user.first_name,
-                            data.user.last_name,
-                            data.user.email));
+                        new User(data.user._id, data.user.first_name, data.user.last_name, data.user.email));
                 } else {
                     setRedirect(true);
                 }
@@ -38,7 +34,7 @@ function Wrapper(props: any) {
     }, [token]);
 
     if (redirect) {
-        return <Navigate to={'/login'}/>;
+        return <Navigate to={'/welcome'}/>;
     }
     return (<div>
         <Nav/>

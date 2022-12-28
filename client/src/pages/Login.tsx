@@ -3,7 +3,7 @@ import React, {SyntheticEvent, useState} from "react";
 import {Navigate} from "react-router-dom";
 import {handleError} from "../API";
 import Cookies from "universal-cookie";
-import {Box, Button, TextField} from "@mui/material";
+import {Button, Paper, TextField} from "@mui/material";
 
 const cookies = new Cookies();
 
@@ -28,34 +28,32 @@ function Login() {
 
     };
     if (redirect) {
-        return <Navigate to={'/'}/>;
+        return <Navigate to={'/tasks/daily'}/>;
     }
 
-    return (<main>
+    return (<Paper elevation={3} style={{
+                    padding: '10%',
+                    display: 'inline-grid',
+                    margin: '10%'}}>
         <form onSubmit={submit}>
-            <Box
-                sx={{
-                    paddingLeft:70,
-                    paddingRight:70,
-                    bgcolor: 'background.default',
-                    display: 'grid',
-                    gap: 2,
-                }}
-            >
-                <h1>Please sign in</h1>
+            <h2>Sign in</h2>
+            <div>
                 <TextField type="email" placeholder="name@example.com" required
                            onChange={(e) => {
                                setEmail(e.target.value)
                            }}/>
+            </div>
+            <div>
                 <TextField type="password" placeholder="Password" required
                            onChange={(e) => {
                                setPassword(e.target.value)
                            }}/>
-            </Box>
-            <Button style={{marginTop:20}} variant="outlined" type="submit">Login</Button>
+            </div>
+
+            <Button style={{marginTop: 20}} variant="outlined" type="submit">Login</Button>
 
         </form>
-    </main>)
+    </Paper>)
 }
 
 export default Login;

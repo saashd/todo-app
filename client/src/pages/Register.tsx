@@ -1,9 +1,9 @@
 import React, {ChangeEvent, SyntheticEvent, useState} from "react";
 import axios from "axios";
-import {Navigate} from "react-router-dom";
 import {handleError} from "../API";
+import {Button, DialogActions, TextField} from "@mui/material";
 
-function Register() {
+function Register(props: { setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [state, setState] = useState({
         firstName: "",
         lastName: "",
@@ -11,7 +11,6 @@ function Register() {
         password: "",
         passwordConfirm: "",
     });
-    const [redirect, setRedirect] = useState(false);
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setState({...state, [e.target.id]: e.target.value})
 
@@ -26,36 +25,44 @@ function Register() {
             password_confirm: state.passwordConfirm
         };
         try {
-            await axios.post('register', data);
-            setRedirect(true);
-
+            if (state.password === state.passwordConfirm) {
+                await axios.post('register', data);
+                props.setOpen(false)
+            } else {
+                window.alert('passwords dont match')
+            }
         } catch (e) {
             handleError(e)
 
         }
     };
-    if (redirect) {
-        return <Navigate to={'/login'}/>;
-    }
-    return (<div>
-        <main className="form-signin w-100 m-auto">
-            <form onSubmit={submit}>
-                <h1 className="h3 mb-3 fw-normal">Please Register</h1>
-                <input id="firstName" type="text" className="form-control" placeholder="First Name" required
-                       onChange={handleChange}/>
-                <input id="lastName" type="text" className="form-control" placeholder="Last Name" required
-                       onChange={handleChange}/>
-                <input id="email" type="email" className="form-control" placeholder="name@example.com" required
-                       onChange={handleChange}/>
-                <input id="password" type="password" className="form-control" placeholder="Password" required
-                       onChange={handleChange}/>
-                <input id="passwordConfirm" type="password" className="form-control" placeholder="Password Confirtm"
-                       required
-                       onChange={handleChange}/>
-                <button className="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+    return (<div style={{left: 0, right: 0, margin: "auto"}}>
+        <form onSubmit={submit}>
+            <div>
+                <TextField id="firstName" type="text" placeholder="First Name" required
+                           onChange={handleChange}/>
+            </div>
+            <div>
+                <TextField id="lastName" type="text" placeholder="Last Name" required
+                           onChange={handleChange}/>
+            </div>
+            <div>
+                <TextField id="email" type="email" placeholder="name@example.com" required
+                           onChange={handleChange}/>
+            </div>
+            <div>
+                <TextField id="password" autoComplete="on" type="password" placeholder="Password" required
+                           onChange={handleChange}/>
+            </div>
+            <div><TextField id="passwordConfirm" autoComplete="on" type="password" placeholder="Password Confirm"
+                            required
+                            onChange={handleChange}/>
+            </div>
+            <DialogActions>
+                <Button variant="outlined" type="submit">Submit</Button>
+            </DialogActions>
 
-            </form>
-        </main>
+        </form>
     </div>);
 
 }
