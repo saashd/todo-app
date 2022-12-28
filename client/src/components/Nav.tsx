@@ -6,7 +6,7 @@ import {User} from "../models/user";
 import {handleError} from "../API";
 import {
     AppBar,
-    CssBaseline, Divider, Drawer,
+    CssBaseline,
     IconButton,
     Toolbar,
     Tooltip,
@@ -16,8 +16,6 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ListItems from "./ListItems";
 
-
-const drawerWidth = 240;
 
 function Nav(props: { user: User }) {
 
@@ -33,16 +31,17 @@ function Nav(props: { user: User }) {
     };
 
     if (signout) {
-        return <Navigate to={'/login'}/>;
+        return <Navigate to={'/welcome'}/>;
     }
     return (
         <div>
             <CssBaseline/>
-            <AppBar position="fixed" style={{background:"#673ab7"}}>
+            <AppBar position="fixed" style={{background: "#673ab7"}}>
                 <Toolbar>
-                    <Typography variant="h6" style={{fontFamily: "cursive"}} color="inherit">
+                    <Typography variant="h6" style={{fontFamily: "cursive", paddingRight: "2%"}} color="inherit">
                         Welcome {props.user.name}
                     </Typography>
+                    <ListItems/>
                     <div style={{flexGrow: 1}}/>
 
                     <Tooltip title="Profile" aria-label="Profile" arrow>
@@ -57,14 +56,6 @@ function Nav(props: { user: User }) {
                     </Tooltip>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent"
-                    sx={{
-                        '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth,height: 'calc(100% - 64px)', top: 64,},
-                    }}>
-                <Divider/>
-                <ListItems/>
-            </Drawer>
-
         </div>
     );
 }
