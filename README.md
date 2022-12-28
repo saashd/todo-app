@@ -2,14 +2,14 @@
 
 ## 🛠 
 
-###Client Side:
+### Client Side:
 
 - **React** 
 - **Redux** 
 - **Typescript**
 - **MUI** 
 
-###Server Side:
+### Server Side:
 
 - **MongoDB** 
 - **Mongoose** 
