@@ -38,14 +38,16 @@ function Wrapper(props: any) {
     }
     return (<div>
         <Nav/>
-        <main style={{
-            top:"64px",
-            left: "240px",
-            position: 'absolute',
-            padding:"2%"
-        }}>
-            {props.children}
-        </main>
+            <main style={{
+                top: "64px",
+                left:"200px",
+                position: 'absolute',
+                padding: "3%"
+            }}>
+                {props.children}
+
+
+            </main>
     </div>);
 }
 

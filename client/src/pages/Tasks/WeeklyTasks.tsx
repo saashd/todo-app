@@ -8,7 +8,7 @@ import Wrapper from "../../components/Wrapper";
 
 const sortTasksbyDay = (todos: ITodo[]) => {
     const tasksByDay: { [day: string]: ITodo[]; } = {
-        Sunday: [], Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: []
+        Sunday: [], Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: []
     };
     todos.forEach((t: ITodo) => {
         tasksByDay[t.day!] = [...tasksByDay[t.day!], t];
@@ -75,13 +75,12 @@ const WeeklyTasks = () => {
     };
     return (
         <Wrapper>
-            <div>
                 <Grid container justifyContent="center"
                       alignItems="stretch" spacing={3} direction="row">
                     {
                         Object.entries(tasksByDay)
                             .map(([key, value]: [string, any]) =>
-                                <Grid key={key} item sm={6} style={{display: "flex"}}>
+                                <Grid  key={key} item sm={6} style={{display: "flex", alignContent:"stretch" }}>
                                     <Paper elevation={1} style={{
                                         width: '400px',
                                         display: 'inline-block',
@@ -108,7 +107,6 @@ const WeeklyTasks = () => {
                             )
                     }
                 </Grid>
-            </div>
         </Wrapper>
     )
 }

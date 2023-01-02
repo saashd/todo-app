@@ -13,9 +13,7 @@ import Welcome from "./pages/Welcome";
 function App() {
     return (
         <div style={{
-            textAlign: 'center',
-            width: '100vw',
-            height: '100vh',
+            textAlign: 'center'
         }}>
             <Background/>
             <Router>
