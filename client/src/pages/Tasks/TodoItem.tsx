@@ -30,8 +30,7 @@ const Todo: React.FC<Props> = ({updateTodo, deleteTodo, todo}) => {
                         {open ? <ExpandLess/> : <ExpandMore/>}
                     </IconButton>
                     <Checkbox
-                        edge="start"
-                        style={{color: "#009688"}}
+                        color="secondary"
                         checked={todo.status}
                         onClick={() => updateTodo({...todo, status: !todo.status})}
                     />

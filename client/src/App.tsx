@@ -9,27 +9,45 @@ import Profile from "./pages/Profile";
 import DailyTask from "./pages/Tasks/DailyTask";
 import Background from "./components/Background/Background";
 import Welcome from "./pages/Welcome";
+import createTheme from "@mui/material/styles/createTheme";
+import {ThemeProvider} from "@mui/material/styles";
+
+
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#AD343E',
+        },
+        secondary: {
+            main: '#FFB400',
+        },
+
+    },
+});
 
 function App() {
     return (
-        <div style={{
-            textAlign: 'center'
-        }}>
-            <Background/>
-            <Router>
-                <Routes>
-                    <Route path={'/'} element={<DailyTask/>}/>
-                    <Route path={'/welcome'} element={<Welcome/>}/>
-                    <Route path={'/login'} element={<Login/>}/>
-                    <Route path={'/tasks'}>
-                    <Route index={true} element={<WeeklyTasks/>}/>
-                    <Route path={'/tasks/daily'} element={<DailyTask/>}/>
-                    </Route>
-                    <Route path={'/profile'} element={<Profile/>}/>
-                </Routes>
-            </Router>
+        <ThemeProvider theme={theme}>
+            <div style={{
+                textAlign: 'center'
+            }}>
+                <Background/>
+                <Router>
+                    <Routes>
+                        <Route path={'/'} element={<DailyTask/>}/>
+                        <Route path={'/welcome'} element={<Welcome/>}/>
+                        <Route path={'/login'} element={<Login/>}/>
+                        <Route path={'/tasks'}>
+                            <Route index={true} element={<WeeklyTasks/>}/>
+                            <Route path={'/tasks/daily'} element={<DailyTask/>}/>
+                        </Route>
+                        <Route path={'/profile'} element={<Profile/>}/>
+                    </Routes>
+                </Router>
 
-        </div>
+            </div>
+        </ThemeProvider>
     );
 }
 

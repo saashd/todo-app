@@ -102,7 +102,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
                                 <TextField type="text" name="email" placeholder="Email"
                                            value={state.email} required
                                            onChange={handleChange}/>
-                                <Button type="submit">Save</Button>
+                                <Button color="primary" type="submit">Save</Button>
                             </div>
                         </form>
                     </Grid>
@@ -116,7 +116,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
                                 <TextField autoComplete="on" type="password" name="password_confirm" placeholder="Password Confirm"
                                            value={state.password_confirm} required
                                            onChange={handleChange}/>
-                                <Button type="submit">Save</Button>
+                                <Button  color="primary" type="submit">Save</Button>
                             </div>
                         </form>
                     </Grid>

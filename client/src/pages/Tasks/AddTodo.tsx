@@ -19,7 +19,7 @@ const AddTodo: React.FC<Props> = ({saveTodo, day}) => {
 
     return (
         <div>
-            <Button variant='contained' color="success" onClick={() => {
+            <Button  color="primary" variant="contained" onClick={() => {
                 setOpen(!open)
             }}>
                 Add Task
@@ -39,7 +39,7 @@ const AddTodo: React.FC<Props> = ({saveTodo, day}) => {
                         <TextField label='Name' type='text' id='name' onChange={handleForm} required/>
                         <TextField label='Description' type='text' id='description' onChange={handleForm} required/>
                     </div>
-                    <Button color="success" style={{margin: "2%",color:"#009688"}} variant="outlined" type="submit">Save</Button>
+                    <Button color="primary" style={{margin: "2%"}} variant="outlined" type="submit">Save</Button>
                 </form>
             </Dialog>
         </div>
