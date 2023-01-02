@@ -4,17 +4,30 @@ import Todo from "../../models/todo"
 
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
+const getDateXDaysAgo = (numOfDays: number, date: Date = new Date()) => {
+    const daysAgo = new Date(date.getTime());
+    daysAgo.setDate(date.getDate() - numOfDays);
+    return daysAgo;
+};
 
 const getTodos = async (req: Request, res: Response): Promise<void> => {
     try {
-        if (req.query.today === "true") {
-            const d = new Date();
-            const day = weekday[d.getDay()];
+        const now = new Date();
+        const day = now.getDay();
+        const startDate = getDateXDaysAgo(day);
+        const endDate = new Date(now.setDate(now.getDate() + (7 - day)));
+        let start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1);
+        start.setUTCHours(0, 0, 0, 0);
+        let end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        end.setUTCHours(23, 59, 59, 999);
+        let query = {createdAt: {$gte: start, $lt: end}};
 
-            const todos: ITodo[] = await Todo.where({uid: req.authInfo,day:day}).find();
+        if (req.query.today === "true") {
+            const today = weekday[day];
+            const todos: ITodo[] = await Todo.where({uid: req.authInfo, day: today}).find(query);
             res.status(200).json({todos});
         } else {
-            const todos: ITodo[] = await Todo.where({uid: req.authInfo}).find();
+            const todos: ITodo[] = await Todo.where({uid: req.authInfo}).find(query);
             res.status(200).json({todos});
         }
     } catch (error) {

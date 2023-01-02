@@ -15,16 +15,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTodo = exports.updateTodo = exports.addTodo = exports.getTodos = void 0;
 const todo_1 = __importDefault(require("../../models/todo"));
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const getDateXDaysAgo = (numOfDays, date = new Date()) => {
+    const daysAgo = new Date(date.getTime());
+    daysAgo.setDate(date.getDate() - numOfDays);
+    return daysAgo;
+};
 const getTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const now = new Date();
+        const day = now.getDay();
+        const startDate = getDateXDaysAgo(day);
+        const endDate = new Date(now.setDate(now.getDate() + (7 - day)));
+        let start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1);
+        start.setUTCHours(0, 0, 0, 0);
+        let end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        end.setUTCHours(23, 59, 59, 999);
+        let query = { createdAt: { $gte: start, $lt: end } };
         if (req.query.today === "true") {
-            const d = new Date();
-            const day = weekday[d.getDay()];
-            const todos = yield todo_1.default.where({ uid: req.authInfo, day: day }).find();
+            const today = weekday[day];
+            const todos = yield todo_1.default.where({ uid: req.authInfo, day: today }).find(query);
             res.status(200).json({ todos });
         }
         else {
-            const todos = yield todo_1.default.where({ uid: req.authInfo }).find();
+            const todos = yield todo_1.default.where({ uid: req.authInfo }).find(query);
             res.status(200).json({ todos });
         }
     }
