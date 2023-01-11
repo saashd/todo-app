@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import Login from "./Login";
 import Register from "./Register";
-import {Button, Dialog, DialogTitle} from "@mui/material";
+import {AppBar, Button, Dialog, IconButton, Toolbar, Typography} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 function Welcome() {
     const [open, setOpen] = useState(false);
@@ -22,10 +23,24 @@ function Welcome() {
                 onClose={() => {
                     setOpen(!open)
                 }}>
-                <DialogTitle>
-                    Fill in the blank
-                </DialogTitle>
-                <Register setOpen={setOpen}/>
+                <AppBar sx={{position: 'relative'}}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => {
+                                setOpen(!open)
+                            }}
+                            aria-label="close"
+                        >
+                            <CloseIcon/>
+                        </IconButton>
+                        <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
+                            Fill in the blank
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Register/>
             </Dialog>
         </main>
     )

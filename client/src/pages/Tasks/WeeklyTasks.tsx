@@ -1,5 +1,5 @@
 import AddTodo from "./AddTodo";
-import {Grid, Paper, Typography} from "@mui/material";
+import {Grid, LinearProgress, Paper, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {addTodo, deleteTodo, getTodos, handleError, updateTodo} from "../../API";
 import TodoItem from "./TodoItem";
@@ -14,12 +14,13 @@ const sortTasksbyDay = (todos: ITodo[]) => {
         tasksByDay[t.day!] = [...tasksByDay[t.day!], t];
     });
     return tasksByDay
-
-
 };
+
+
 const WeeklyTasks = () => {
     const [todos, setTodos] = useState<ITodo[]>([]);
     const [tasksByDay, setTasksByDay] = useState({});
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         fetchTodos()
     }, []);
@@ -28,7 +29,8 @@ const WeeklyTasks = () => {
         getTodos()
             .then(({data: {todos}}: ITodo[] | any) => {
                 setTodos(todos);
-                setTasksByDay(sortTasksbyDay(todos))
+                setTasksByDay(sortTasksbyDay(todos));
+                setIsLoaded(true);
             })
             .catch((err: Error) => handleError(err))
     };
@@ -73,21 +75,38 @@ const WeeklyTasks = () => {
             })
             .catch(err => handleError(err))
     };
-    return (
-        <Wrapper>
+    if (!isLoaded) {
+        return (<Wrapper>
+                <LinearProgress style={{width: '100vw'}}/>
+            </Wrapper>
+        )
+    } else {
+        return (
+            <Wrapper>
                 <Grid container justifyContent="center"
-                      alignItems="stretch" spacing={3} direction="row">
+                      spacing={3} direction="row"
+                      style={{
+                          left: 0,
+                          right: 0,
+                          position: "fixed",
+                          padding: "3%",
+                          overflow: 'auto',
+                          height: "94vh",
+                          alignItems: "stretch"
+                      }}
+                >
                     {
                         Object.entries(tasksByDay)
                             .map(([key, value]: [string, any]) =>
-                                <Grid  key={key} item sm={6} style={{display: "flex", alignContent:"stretch" }}>
+                                <Grid key={key} item sm={6}>
                                     <Paper elevation={1} style={{
                                         width: '400px',
                                         display: 'inline-block',
                                         position: 'relative'
                                     }}>
                                         <div>
-                                            <Typography variant="h5" style={{fontFamily: "cursive",margin:"5%"}}>{key}</Typography>
+                                            <Typography variant="h5"
+                                                        style={{fontFamily: "cursive", margin: "5%"}}>{key}</Typography>
                                             {value.map((todo: ITodo) => (
                                                 <TodoItem
                                                     key={todo._id}
@@ -97,9 +116,7 @@ const WeeklyTasks = () => {
                                                 />
                                             ))}
                                         </div>
-                                        <div style={{
-                                            bottom: -20, left: 0, right: 0, position: "absolute"
-                                        }}>
+                                        <div>
                                             <AddTodo saveTodo={handleSaveTodo} day={key}/>
                                         </div>
                                     </Paper>
@@ -107,8 +124,9 @@ const WeeklyTasks = () => {
                             )
                     }
                 </Grid>
-        </Wrapper>
-    )
+            </Wrapper>
+        )
+    }
 }
 
 

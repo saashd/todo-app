@@ -17,7 +17,7 @@ function Wrapper(props: any) {
         (async () => {
             try {
                 if (token) {
-                    axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+                    axios.defaults.headers.common = {'Authorization': `Bearer ${token}`};
                     const {data} = await axios.get('user');
                     props.setUser(
                         new User(data.user._id, data.user.first_name, data.user.last_name, data.user.email));
@@ -30,7 +30,7 @@ function Wrapper(props: any) {
 
             }
         })();
-         // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     if (redirect) {
@@ -38,16 +38,14 @@ function Wrapper(props: any) {
     }
     return (<div>
         <Nav/>
-            <main style={{
-                top: "64px",
-                left:"200px",
-                position: 'absolute',
-                padding: "3%"
-            }}>
-                {props.children}
+        <main style={{
+            top: "64px",
+            position: 'absolute'
+        }}>
+            {props.children}
 
 
-            </main>
+        </main>
     </div>);
 }
 

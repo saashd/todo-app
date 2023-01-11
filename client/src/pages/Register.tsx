@@ -1,9 +1,13 @@
 import React, {ChangeEvent, SyntheticEvent, useState} from "react";
 import axios from "axios";
 import {handleError} from "../API";
-import {Button, DialogActions, TextField} from "@mui/material";
+import {Button,TextField, Alert, AlertColor, Collapse, Box, Grid} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
-function Register(props: { setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+
+function Register() {
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState<AlertColor | undefined>(undefined);
     const [state, setState] = useState({
         firstName: "",
         lastName: "",
@@ -15,7 +19,7 @@ function Register(props: { setOpen: React.Dispatch<React.SetStateAction<boolean>
         setState({...state, [e.target.id]: e.target.value})
 
     };
-    const submit = async (e: SyntheticEvent) => {
+    const submit = (e: SyntheticEvent) => {
         e.preventDefault();
         const data = {
             first_name: state.firstName,
@@ -24,45 +28,76 @@ function Register(props: { setOpen: React.Dispatch<React.SetStateAction<boolean>
             password: state.password,
             password_confirm: state.passwordConfirm
         };
-        try {
-            if (state.password === state.passwordConfirm) {
-                await axios.post('register', data);
-                props.setOpen(false)
-            } else {
-                window.alert('passwords dont match')
-            }
-        } catch (e) {
-            handleError(e)
 
+        if (state.password === state.passwordConfirm) {
+            axios.post('register', data).then((res) => {
+                setStatus('success');
+                setOpen(true);
+
+
+            }).catch((err) => {
+                setStatus('error');
+                handleError(err);
+                setOpen(true)
+            })
+
+        } else {
+            window.alert('passwords dont match')
         }
     };
-    return (<div style={{left: 0, right: 0, margin: "auto"}}>
+
+
+    return (<div>
         <form onSubmit={submit}>
-            <div>
-                <TextField id="firstName" type="text" placeholder="First Name" required
-                           onChange={handleChange}/>
-            </div>
-            <div>
-                <TextField id="lastName" type="text" placeholder="Last Name" required
-                           onChange={handleChange}/>
-            </div>
-            <div>
-                <TextField id="email" type="email" placeholder="name@example.com" required
-                           onChange={handleChange}/>
-            </div>
-            <div>
-                <TextField id="password" autoComplete="on" type="password" placeholder="Password" required
-                           onChange={handleChange}/>
-            </div>
-            <div><TextField id="passwordConfirm" autoComplete="on" type="password" placeholder="Password Confirm"
-                            required
-                            onChange={handleChange}/>
-            </div>
-            <DialogActions>
-                <Button variant="outlined" type="submit">Submit</Button>
-            </DialogActions>
+            <Grid container justifyContent="center"
+                  alignItems="center"
+                   direction={"column"} spacing={2}
+            style={{padding:"3%"}}>
+                <Grid item>
+                    <TextField id="firstName" type="text" placeholder="First Name" required
+                               onChange={handleChange}/>
+                </Grid>
+                <Grid item>
+                    <TextField id="lastName" type="text" placeholder="Last Name" required
+                               onChange={handleChange}/>
+                </Grid>
+                <Grid item>
+                    <TextField id="email" type="email" placeholder="name@example.com" required
+                               onChange={handleChange}/>
+                </Grid>
+                <Grid item>
+                    <TextField id="password" autoComplete="on" type="password" placeholder="Password" required
+                               onChange={handleChange}/>
+                </Grid>
+                <Grid item>
+                    <TextField id="passwordConfirm" autoComplete="on" type="password" placeholder="Password Confirm"
+                               required
+                               onChange={handleChange}/>
+                </Grid>
+                <Grid item>
+                    <Button variant="outlined" type="submit">Submit</Button>
+                </Grid>
+            </Grid>
 
         </form>
+        {status ?
+            <Box sx={{width: '100%'}}>
+                <Collapse in={open}>
+                    <Alert severity={status}
+                           action={
+                               <Button onClick={() => {
+                                   setOpen(false);
+                               }}
+                                       color="inherit" size="small">
+                                   <CloseIcon fontSize="inherit"/>
+                               </Button>
+                           }
+                    >{status === "success" ? 'Registration succeed!' : 'Registration failed'}</Alert>
+                </Collapse>
+            </Box>
+            : <></>
+        }
+
     </div>);
 
 }

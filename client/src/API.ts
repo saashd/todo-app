@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios"
 
-const baseUrl: string = "http://localhost:4000";
+const baseUrl: string | undefined = process.env.REACT_APP_BASE_URL;
 
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 

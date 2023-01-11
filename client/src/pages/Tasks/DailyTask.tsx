@@ -1,4 +1,4 @@
-import {Paper} from "@mui/material";
+import {LinearProgress, Paper} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {addTodo, deleteTodo, getTodos, handleError, updateTodo} from "../../API";
 import TodoItem from "./TodoItem";
@@ -7,13 +7,17 @@ import AddTodo from "./AddTodo";
 
 const DailyTask = () => {
     const [todos, setTodos] = useState<ITodo[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         fetchTodos()
     }, []);
 
     const fetchTodos = (): void => {
         getTodos({today: true})
-            .then(({data: {todos}}: ITodo[] | any) => setTodos(todos))
+            .then(({data: {todos}}: ITodo[] | any) => {
+                setTodos(todos);
+                setIsLoaded(true);
+            })
             .catch((err: Error) => handleError(err))
     };
     const handleSaveTodo = (e: React.FormEvent, formData: ITodo): void => {
@@ -53,25 +57,43 @@ const DailyTask = () => {
             })
             .catch(err => handleError(err))
     };
-    return (
-        <Wrapper>
-            <Paper elevation={3} style={{
-                width: '400px',
-                left: 0, right: 0, position: "fixed", margin: "auto",
-                padding: "1%"
-            }}>
-                {todos.map((todo: ITodo) => (
-                    <TodoItem
-                        key={todo._id}
-                        updateTodo={handleUpdateTodo}
-                        deleteTodo={handleDeleteTodo}
-                        todo={todo}
-                    />
-                ))}
-                <AddTodo saveTodo={handleSaveTodo} day={''}/>
-            </Paper>
-        </Wrapper>
-    )
+    if (!isLoaded) {
+        return (<Wrapper>
+                <LinearProgress style={{width: '100vw'}}/>
+            </Wrapper>
+        )
+    } else {
+        return (
+            <Wrapper>
+                <div
+                    style={{
+                        left: 0, right: 0,
+                        position: "fixed",
+                        overflow: 'auto',
+                        height: "91vh"
+                    }}
+                >
+                    <Paper elevation={3}
+                           style={{
+                               margin: "3%",
+                               padding: "3%",
+                               width: "30%",
+                               display: "inline-block"
+                           }}>
+                        {todos.map((todo: ITodo) => (
+                            <TodoItem
+                                key={todo._id}
+                                updateTodo={handleUpdateTodo}
+                                deleteTodo={handleDeleteTodo}
+                                todo={todo}
+                            />
+                        ))}
+                        <AddTodo saveTodo={handleSaveTodo} day={''}/>
+                    </Paper>
+                </div>
+            </Wrapper>
+        )
+    }
 }
 
 
