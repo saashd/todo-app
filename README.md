@@ -1,8 +1,8 @@
 #  Todo web app - MERN app
 
 This is a full-stack todo web app built using the MERN stack (MongoDB, Express, React, and Node.js). 
-The client side of the app is built using React, Redux, TypeScript, and Material UI. 
-The server side is built using MongoDB, Mongoose, and Express.
+The client side of the app is built using React, Redux, TypeScript, and Material UI and deployed on Netlify 
+The server side is built using MongoDB, Mongoose, and Express and deployed on Heroku
 
 To start the server, go to the server directory and run:
 
