@@ -1,30 +1,41 @@
 #  Todo web app - MERN app
 
-This is a full-stack todo web app built using the MERN stack (MongoDB, Express, React, and Node.js). 
-The client side of the app is built using React, Redux, TypeScript, and Material UI and deployed on Netlify 
-The server side is built using MongoDB, Mongoose, and Express and deployed on Heroku
+## This is a full-stack [todo web app](https://todo.alexdruzina.com) built using the MERN stack (MongoDB, Express, React, and Node.js). 
 
-To start the server, go to the server directory and run:
+### Client Side 🛠
+  - React
+  - Redux
+  - TypeScript
+  - Material UI 
+  - deployed on Netlify.
 
-Copy code
-npm start
-To start the client side, go to the client directory and run:
+### Server Side 🛠
+ - MongoDB
+ - Mongoose
+ - Express
+ - deployed on Heroku.
 
-Copy code
-npm start
 
-To start the server, go to the `server` directory and run:
+### Local Usage
+
+
+To start the server,go to the `server` directory:
+inside `nodemon.json` update MONGO_USER and MONGO_PASSWORD to match yours, then run:
 ```
 npm start
 ```
-To start the client side,go to `client` directory and run:
+To start the client side,go to `client` directory:
+create `.env` file and add this line:
+```
+REACT_APP_BASE_URL=https://localhost:3000 
+```
+then run:
 ```
 npm start
 ```
 
 
-
-![image](https://user-images.githubusercontent.com/52024657/209697153-7b106ecf-d687-470c-9aaf-c68ea4460afc.png)
-![image](https://user-images.githubusercontent.com/52024657/209697127-e384842e-f7a7-4513-9df4-a5eeba6637fd.png)
-![image](https://user-images.githubusercontent.com/52024657/209696750-2bc2ab88-1e0b-4ca1-aca4-864b724674a4.png)
-![image](https://user-images.githubusercontent.com/52024657/209696892-25843aae-e91b-4790-8336-8f5784ec0f6d.png)
+![image](https://user-images.githubusercontent.com/52024657/211843416-c45b7cd5-ddd1-456a-8711-1354a5260b2a.png)
+![image](https://user-images.githubusercontent.com/52024657/211843634-92bfa081-b24e-4b3b-9fff-bb4b3ae87420.png)
+![image](https://user-images.githubusercontent.com/52024657/211843871-c220914f-c7e5-4787-a4ff-c107a2762b54.png)
+![image](https://user-images.githubusercontent.com/52024657/211843937-b22516c9-8480-4024-b930-33892c9cbdec.png)
