@@ -1,11 +1,11 @@
 import React, {ChangeEvent, SyntheticEvent, useState} from "react";
 import axios from "axios";
 import {handleError} from "../API";
-import {Button,TextField, Alert, AlertColor, Collapse, Box, Grid} from "@mui/material";
+import {Button, TextField, Alert, AlertColor, Collapse, Box, Grid} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 
-function Register() {
+function Register(props: { setDialog: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState<AlertColor | undefined>(undefined);
     const [state, setState] = useState({
@@ -33,12 +33,12 @@ function Register() {
             axios.post('register', data).then((res) => {
                 setStatus('success');
                 setOpen(true);
-
-
+                setTimeout(() => props.setDialog(false), 1000)
             }).catch((err) => {
                 setStatus('error');
                 handleError(err);
                 setOpen(true)
+
             })
 
         } else {
@@ -51,8 +51,8 @@ function Register() {
         <form onSubmit={submit}>
             <Grid container justifyContent="center"
                   alignItems="center"
-                   direction={"column"} spacing={2}
-            style={{padding:"3%"}}>
+                  direction={"column"} spacing={2}
+                  style={{padding: "30px"}}>
                 <Grid item>
                     <TextField id="firstName" type="text" placeholder="First Name" required
                                onChange={handleChange}/>

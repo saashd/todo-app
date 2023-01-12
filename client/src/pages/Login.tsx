@@ -3,7 +3,20 @@ import React, {SyntheticEvent, useState} from "react";
 import {Navigate} from "react-router-dom";
 import {handleError} from "../API";
 import Cookies from "universal-cookie";
-import {AppBar, Button, Grid, Paper, TextField, Toolbar, Typography} from "@mui/material";
+import {
+    Alert,
+    AlertColor,
+    AppBar,
+    Box,
+    Button,
+    Collapse,
+    Grid,
+    Paper,
+    TextField,
+    Toolbar,
+    Typography
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const cookies = new Cookies();
@@ -12,6 +25,9 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [redirect, setRedirect] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState<AlertColor | undefined>(undefined);
+    const [error, setError] = useState<string | null>(null);
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault();
         try {
@@ -25,9 +41,16 @@ function Login() {
             });
 
             setRedirect(true);
+            setStatus('success');
+            setOpen(true);
 
-        } catch (error) {
-            handleError(error)
+
+        } catch (err:any) {
+
+            handleError(err);
+            setError(err.response.data.message);
+            setStatus('error');
+            setOpen(true)
         }
 
 
@@ -38,20 +61,19 @@ function Login() {
 
     return (
         <div style={{
-            padding: '10%',
-            display: 'inline-grid',
+            padding: '20px',
             width: "300px"
 
         }}>
             <AppBar sx={{position: 'relative'}}>
                 <Toolbar>
-                    <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
+                    <Typography sx={{flex: 1}} variant="h6" component="div">
                         Sign in
                     </Typography>
                 </Toolbar>
             </AppBar>
             <Paper elevation={3} style={{
-                padding: '5%'
+                padding: '20px'
             }}>
                 <form onSubmit={submit}>
                     <Grid container direction={"column"} spacing={2}>
@@ -72,7 +94,24 @@ function Login() {
                         </Grid>
                     </Grid>
                 </form>
+                {status ?
+                    <Box sx={{width: '100%'}}>
+                        <Collapse in={open}>
+                            <Alert severity={status}
+                                   action={
+                                       <Button onClick={() => {
+                                           setOpen(false);
+                                       }}
+                                               color="inherit" size="small">
+                                           <CloseIcon fontSize="inherit"/>
+                                       </Button>
+                                   }
+                            >{status === "success" ? 'Login succeed!' : error}</Alert>
+                        </Collapse>
+                    </Box>
+                    : <></>}
             </Paper>
+
         </div>
     )
 }

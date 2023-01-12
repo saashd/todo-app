@@ -18,6 +18,8 @@ import {
     Typography
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import "../styles.css"
+
 
 export interface IRootState {
     user: IUser;
@@ -108,10 +110,11 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
 
         return (
             <Wrapper>
+                <div   className="wrap">
                 <Grid container justifyContent="center"
                       alignItems="stretch"
                       direction={"row"} spacing={5}
-                      style={{left: 0, right: 0, position: "fixed", padding: "3%"}}>
+                      >
                     <Grid item>
                         <AppBar sx={{position: 'relative'}}>
                             <Toolbar>
@@ -121,8 +124,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
                             </Toolbar>
                         </AppBar>
                         <Paper elevation={3} style={{
-                            padding: '10%',
-                            display: 'inline-grid',
+                            padding: '10px',
                             width: "300px"
                         }}
                         >
@@ -130,7 +132,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
                                 <Grid container justifyContent="center"
                                       alignItems="center"
                                       direction={"column"} spacing={2}
-                                      style={{padding: "3%"}}>
+                                      style={{padding: "10px"}}>
                                     <Grid item>
                                         <TextField name="first_name" placeholder="First Name"
                                                    value={state.first_name} required
@@ -163,8 +165,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
                             </Toolbar>
                         </AppBar>
                         <Paper elevation={3} style={{
-                            padding: '10%',
-                            display: 'inline-grid',
+                            padding: '10px',
                             width: "300px"
                         }}
                         >
@@ -172,7 +173,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
                                 <Grid container justifyContent="center"
                                       alignItems="center"
                                       direction={"column"} spacing={2}
-                                      style={{padding: "3%"}}>
+                                      style={{padding: "10px"}}>
 
                                     <Grid item>
                                         <TextField autoComplete="on" type="password" name="password"
@@ -196,7 +197,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
                     <Grid item xs={12}>
 
                         {status ?
-                            <Box sx={{width: '25%', right: 0, position: "absolute"}}>
+                            <Box sx={{width: '25%', left: 0, right: 0, margin: "auto", position: "absolute"}}>
                                 <Collapse in={open}>
                                     <Alert severity={status}
                                            action={
@@ -215,6 +216,7 @@ function Profile(props: { user: User, setUser: (user: User) => void }) {
 
                     </Grid>
                 </Grid>
+                     </div>
             </Wrapper>
         );
     }
