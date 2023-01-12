@@ -4,6 +4,7 @@ import {addTodo, deleteTodo, getTodos, handleError, updateTodo} from "../../API"
 import TodoItem from "./TodoItem";
 import Wrapper from "../../components/Wrapper";
 import AddTodo from "./AddTodo";
+import "../../styles.css"
 
 const DailyTask = () => {
     const [todos, setTodos] = useState<ITodo[]>([]);
@@ -66,18 +67,13 @@ const DailyTask = () => {
         return (
             <Wrapper>
                 <div
-                    style={{
-                        left: 0, right: 0,
-                        position: "fixed",
-                        overflow: 'auto',
-                        height: "91vh"
-                    }}
+                    className="wrap"
                 >
                     <Paper elevation={3}
                            style={{
-                               margin: "3%",
-                               padding: "3%",
-                               width: "30%",
+                               margin: "20px",
+                               padding: "20px",
+                               width: "400px",
                                display: "inline-block"
                            }}>
                         {todos.map((todo: ITodo) => (

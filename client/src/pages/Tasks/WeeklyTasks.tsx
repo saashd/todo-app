@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {addTodo, deleteTodo, getTodos, handleError, updateTodo} from "../../API";
 import TodoItem from "./TodoItem";
 import Wrapper from "../../components/Wrapper";
+import "../../styles.css";
 
 
 const sortTasksbyDay = (todos: ITodo[]) => {
@@ -82,19 +83,12 @@ const WeeklyTasks = () => {
         )
     } else {
         return (
-            <Wrapper>
+            <Wrapper >
+                <div className="wrap" >
+
+
                 <Grid container justifyContent="center"
-                      spacing={3} direction="row"
-                      style={{
-                          left: 0,
-                          right: 0,
-                          position: "fixed",
-                          padding: "3%",
-                          overflow: 'auto',
-                          height: "94vh",
-                          alignItems: "stretch"
-                      }}
-                >
+                      spacing={3} direction="row" >
                     {
                         Object.entries(tasksByDay)
                             .map(([key, value]: [string, any]) =>
@@ -106,7 +100,7 @@ const WeeklyTasks = () => {
                                     }}>
                                         <div>
                                             <Typography variant="h5"
-                                                        style={{fontFamily: "cursive", margin: "5%"}}>{key}</Typography>
+                                                        style={{fontFamily: "cursive", margin: "30px"}}>{key}</Typography>
                                             {value.map((todo: ITodo) => (
                                                 <TodoItem
                                                     key={todo._id}
@@ -124,6 +118,7 @@ const WeeklyTasks = () => {
                             )
                     }
                 </Grid>
+                     </div>
             </Wrapper>
         )
     }

@@ -23,7 +23,7 @@ const Todo: React.FC<Props> = ({updateTodo, deleteTodo, todo}) => {
     };
 
     return (
-        <Paper style={{margin: "5%"}}>
+        <Paper style={{margin: "20px"}}>
             <List>
                 <ListItem>
                     <IconButton onClick={handleClick}>
@@ -56,9 +56,7 @@ const Todo: React.FC<Props> = ({updateTodo, deleteTodo, todo}) => {
                         overflowWrap: "break-word",
                         margin: "auto"
                     }}>
-
                         {todo.description}
-
                     </div>
                 </Collapse>
             </List>

@@ -38,7 +38,7 @@ function Nav(props: { user: User }) {
             <CssBaseline/>
             <AppBar position="fixed" style={{background: "#22223b"}}>
                 <Toolbar>
-                    <Typography variant="h6" style={{fontFamily: "cursive", paddingRight: "2%"}} color="inherit">
+                    <Typography variant="h6" style={{fontFamily: "cursive", paddingRight: "20px"}} color="inherit">
                         Welcome {props.user.name}
                     </Typography>
                     <ListItems/>
